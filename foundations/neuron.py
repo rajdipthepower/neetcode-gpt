@@ -18,3 +18,4 @@ class Solution:
             return round(1/(1+np.exp(-z)),5)
         else:
             return round(max(0.0,z),5)
+        return round(z,5)
