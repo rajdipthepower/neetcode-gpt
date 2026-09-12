@@ -28,12 +28,14 @@ class Solution:
         # Return the std of activations after each layer, rounded to 2 decimals.
         torch.manual_seed(0)
         std_layer = []
-        rng = torch.get_rng_state()
+        rng = torch.get_rng_state() # getting the current random state
         for i in range(num_layers):
             _ = torch.randn(hidden_dim,input_dim if i==0 else hidden_dim)
-        x = torch.randn(input_dim)
+        # using a dummy generator to proceed through the random sequence
+        x = torch.randn(input_dim) # generating x after creating dummy weights
         a = x
-        torch.set_rng_state(rng)
+        torch.set_rng_state(rng) 
+        # resetting the sequence to starting point to create weights from start
         for i in range(num_layers):
             if init_type == 'xavier':
                 std = math.sqrt(2 / (len(a) + hidden_dim))
