@@ -11,11 +11,17 @@ class Solution:
         # Apply ReLU after each hidden layer, no activation on output layer
         # return np.round(your_answer, 5)
         a_i = x
+        buffer_memory = np.empty(max(i.shape[1] for i in weights))
         for i in range(len(weights)):
-            z_i = a_i @ weights[i] + biases[i]
+            buffer_pointer = buffer_memory[:weights[i].shape[1]]
+            z = np.dot(a_i,weights[i])
+            buffer_pointer[:] = z
+            buffer_pointer += biases[i]
             if i == len(weights) - 1:
+                a_i = buffer_pointer
                 break
-            a_i = np.maximum(0.0,z_i)
+            np.maximum(0.0,buffer_pointer,out = buffer_pointer)
+            a_i = buffer_pointer
 
-        return np.round(z_i,5)
+        return np.round(a_i,5,out=a_i)
 
