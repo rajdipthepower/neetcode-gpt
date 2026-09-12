@@ -15,5 +15,6 @@ class Solution:
         # Return: (dL_dw rounded to 5 decimals, dL_db rounded to 5 decimals)
         y_hat = 1/(1+math.exp(-(np.dot(x,w)+b)))
         dL_dw = (y_hat - y_true)*y_hat*(1-y_hat)*x
+        # delta is error(y_hat-y_true)*sigmoid derivative
         dL_db = (y_hat - y_true)*y_hat*(1-y_hat)
         return (np.round(dL_dw,5,out=dL_dw),round(dL_db,5))
