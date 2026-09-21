@@ -17,7 +17,7 @@ class Solution:
         w = np.zeros(X.shape[1])
         b = 0
         for epoch in range(epochs):
-            y_hat = X @ w + b
+            y_hat = np.dot(X,w) + b
             loss = np.mean((y_hat - y)**2)
             w -= lr * (2/len(X))*(X.T @ (y_hat - y))
             b -= lr * (2/len(X))*np.sum(y_hat - y)
