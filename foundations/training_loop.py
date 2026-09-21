@@ -19,6 +19,6 @@ class Solution:
         for epoch in range(epochs):
             y_hat = np.dot(X,w) + b
             loss = np.mean((y_hat - y)**2)
-            w -= lr * (2/len(X))*(X.T @ (y_hat - y))
+            w -= lr * (2/len(X))*(np.dot(X.T,(y_hat - y)))
             b -= lr * (2/len(X))*np.sum(y_hat - y)
         return (np.round(w,5),np.round(b,5))
