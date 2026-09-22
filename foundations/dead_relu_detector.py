@@ -29,11 +29,12 @@ class Solution:
         #    with depth AND the last layer's fraction > 0.1
         # 4. 'healthy' if max dead fraction < 0.1
         # 5. 'healthy' otherwise
-        if max(dead_fractions)>0.5:
-            return 'use_leaky_relu'
-        elif dead_fractions[0]>0.3:
-            return 'reinitialize'
-        elif torch.all(torch.diff(torch.tensor(dead_fractions))>0) and (dead_fractions[-1] > 0.1) :
-            return'reduce_learning_rate'
-        else:
-            return 'healthy'
+        if dead_fractions:
+            if max(dead_fractions)>0.5:
+                return 'use_leaky_relu'
+            elif dead_fractions[0]>0.3:
+                return 'reinitialize'
+            elif torch.all(torch.diff(torch.tensor(dead_fractions))>0) and (dead_fractions[-1] > 0.1) :
+                return'reduce_learning_rate'
+            else:
+                return 'healthy'
