@@ -34,7 +34,7 @@ class Solution:
                 return 'use_leaky_relu'
             elif dead_fractions[0]>0.3:
                 return 'reinitialize'
-            elif torch.all(torch.diff(torch.tensor(dead_fractions))>0) and (dead_fractions[-1] > 0.1) :
+            elif all([(dead_fractions[i+1]-dead_fractions[i])>0 for i in range(len(dead_fractions)-1)]) and (dead_fractions[-1] > 0.1) :
                 return'reduce_learning_rate'
             else:
                 return 'healthy'
