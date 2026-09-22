@@ -1,7 +1,7 @@
 # My GPT — Built from Scratch
 
 > Assembled from the NeetCode ML course on [NeetCode.io](https://neetcode.io)
-> Built by **Rajdip Leader** on September 6, 2026
+> Built by **Rajdip Sinha** on September 6, 2026
 
 Every file in this project is code I wrote and submitted while completing the NeetCode ML course.
 The problems progressively build from gradient descent fundamentals all the way to a working GPT.
