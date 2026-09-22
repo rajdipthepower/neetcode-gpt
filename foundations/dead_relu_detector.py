@@ -34,7 +34,9 @@ class Solution:
                 return 'use_leaky_relu'
             elif dead_fractions[0]>0.3:
                 return 'reinitialize'
-            elif all([(dead_fractions[i+1]-dead_fractions[i])>0 for i in range(len(dead_fractions)-1)]) and (dead_fractions[-1] > 0.1) :
+            elif len(dead_fractions)>1 and all([(dead_fractions[i+1]-dead_fractions[i])>0 for i in range(len(dead_fractions)-1)]) and (dead_fractions[-1] > 0.1) :
                 return'reduce_learning_rate'
+# Strictly increasing makes sense when dead_fractions has more than 1 neurons , so checking it first
+# using torch.all(torch.diff(dead_fractions)) is much faster if dead_fractions is a tensor which is not in this case , hence will be slower
             else:
                 return 'healthy'
