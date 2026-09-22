@@ -12,19 +12,17 @@ class Solution:
         record = []
         with torch.no_grad():
             for module in model.modules():
-                s = {} # dictionary initialized within loop to allocate each layer to separate dictionaries or else they become repeated copies
-                if isinstance(module,nn.Sequential):
-                    del s
-                    continue
+                if isinstance(module,nn.Sequential): 
+                    continue # skipping sequential block to prevent data mismatch as model.modules() unwraps the linear layers within Sequential too as well as skipping the parent sequential block too
                 out = module(x)
                 if isinstance(module,nn.Linear):
                     summed_activations = torch.sum((out<=0),axis = 0)
-                    s['mean'] = round(torch.mean(out).item(),4)
-                    s['std'] = round(torch.std(out).item(),4)
-                    s['dead_fraction'] = round((summed_activations == out.shape[0]).sum().item()/out.shape[1],4)
-                    record.append(s)
+                    record.append({
+                    'mean' : round(torch.mean(out).item(),4),
+                    'std' : round(torch.std(out).item(),4),
+                    'dead_fraction' : round((summed_activations == out.shape[0]).sum().item()/out.shape[1],4)
+                    })
                 x = out
-                del s
             return record
 
 
@@ -38,13 +36,12 @@ class Solution:
         loss.backward()
 
         for module in model.modules():
-            s = {}
             if isinstance(module,nn.Linear):
-                s['mean'] = round(torch.mean(module.weight.grad).item(),4)
-                s['std'] = round(torch.std(module.weight.grad).item(),4)
-                s['norm'] = round(torch.linalg.vector_norm(module.weight.grad,ord = 2).item(),4)
-                record.append(s)
-            del s
+                record.append({
+                'mean' : round(torch.mean(module.weight.grad).item(),4),
+                'std' : round(torch.std(module.weight.grad).item(),4),
+                'norm' : round(torch.linalg.vector_norm(module.weight.grad,ord = 2).item(),4)
+                })
         return record
 
     def diagnose(self, activation_stats: List[Dict[str, float]], gradient_stats: List[Dict[str, float]]) -> str:
