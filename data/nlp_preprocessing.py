@@ -21,14 +21,8 @@ class Solution:
         neg = []
         # using zip will create intermediate tuples for every iteration , hence use normal loop
         for i in positive:
-            sen1 = []
-            for k in i.split():
-                sen1.append(vocabulary[k])
-            pos.append(torch.tensor(sen1))
+            pos.append(torch.tensor([vocabulary[k] for k in i.split()]))
         for j in negative:
-            sen2 = []
-            for l in j.split():
-                sen2.append(vocabulary[l])
-            neg.append(torch.tensor(sen2))
+            neg.append(torch.tensor([vocabulary[l] for l in j.split()]))
         return nn.utils.rnn.pad_sequence(pos+neg,padding_value=0,batch_first=True)
 
