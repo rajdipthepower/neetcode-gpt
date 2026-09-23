@@ -15,8 +15,8 @@ class Solution:
             collection.update(i.split())
             collection.update(j.split())
         collection = sorted(collection)
-        for i in collection:
-            vocabulary[i] = collection.index(i) + 1
+        for i,j in enumerate(collection): # Using enumerate is much faster than collection.index()
+            vocabulary[j] = i + 1
         pos = []
         neg = []
         # using zip will create intermediate tuples for every iteration , hence use normal loop
