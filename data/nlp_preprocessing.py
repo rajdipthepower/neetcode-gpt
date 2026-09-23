@@ -11,8 +11,9 @@ class Solution:
         # 4. Pad shorter sequences with 0s using nn.utils.rnn.pad_sequence(tensors, batch_first=True)
         collection = set()
         vocabulary = {}
-        for i,j in zip(positive,negative):
+        for i in positive:
             collection.update(i.split())
+        for j in negative:
             collection.update(j.split())
         collection = sorted(collection)
         for i,j in enumerate(collection): # Using enumerate is much faster than collection.index()
