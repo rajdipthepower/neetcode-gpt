@@ -19,14 +19,16 @@ class Solution:
             vocabulary[i] = collection.index(i) + 1
         pos = []
         neg = []
-        for i,j in zip(positive,negative):
+        # using zip will create intermediate tuples for every iteration , hence use normal loop
+        for i in positive:
             sen1 = []
-            sen2 = []
             for k in i.split():
                 sen1.append(vocabulary[k])
+            pos.append(torch.tensor(sen1))
+        for j in negative:
+            sen2 = []
             for l in j.split():
                 sen2.append(vocabulary[l])
-            pos.append(torch.tensor(sen1))
             neg.append(torch.tensor(sen2))
         return nn.utils.rnn.pad_sequence(pos+neg,padding_value=0,batch_first=True)
 
